@@ -1,8 +1,12 @@
 const inquirer = require("inquirer");
-// const manager = require()
+const Manager =  require("./lib/Manager");
+
+// const x = new Manager();
+// console.log(x.getRole());
 function init() {
 
     //will create a new manager then assign values to 
+    
 inquirer.prompt([{
 
     //manager’s name, employee ID, email address, and office number
