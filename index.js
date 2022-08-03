@@ -1,11 +1,10 @@
-
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const fs = require("fs");
 
-function writer(occupation){
+function writer(occupation) {
     console.log(occupation);
     fs.appendFile("./dist/index.html",
         `<section class="unit">
@@ -17,10 +16,11 @@ function writer(occupation){
 <label class="iD"> ID:${occupation.id}</label>
 <label class="email"> Email:${occupation.email}</label>
 <label class="misc">
-${(occupation=="engineer")?"gitHub: "+occupation.getGithub():(occupation=="intern")?"school: "+occupation.getSchool():"office number: " + occupation.getOfficeNumber()}</label>
+${(occupation.getRole() == "engineer") ? "gitHub: " + occupation.getGithub() : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
 </section>
 </section>
-`,function (err) {})}
+`, function (err) { })
+}
 
 function inquirerCore() {
     inquirer.prompt([{
@@ -37,12 +37,11 @@ function inquirerCore() {
                 case 'add intern':
                     inquirer.prompt(internQuestions).then(answers => { const intern = new Intern(answers.name, answers.id, answers.email, answers.school); writer(intern); inquirerCore() })
                     break;
-
                 default:
                     fs.appendFile("./dist/index.html",
-                    `</container>
+                        `</container>
                     </body>
-                    </html>`,function(err){})
+                    </html>`, function (err) { })
             }
 
 
@@ -67,7 +66,6 @@ const managerQuestions = [{
     message: "please enter the office number"
 }
 ]
-
 const engineerQuestions = [{
     name: "name",
     message: "please enter the engineer's name",
