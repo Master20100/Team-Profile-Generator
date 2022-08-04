@@ -14,9 +14,9 @@ function writer(occupation) {
 </section >
 <section class="extraInfo">
 <label class="iD"> ID:${occupation.id}</label>
-<label class="email"> Email:${occupation.email}</label>
+<label class="email"> Email:<a href="mailto:${occupation.email}">${occupation.email}</a></label>
 <label class="misc">
-${(occupation.getRole() == "engineer") ? "gitHub: " + occupation.getGithub() : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
+${(occupation.getRole() == "engineer") ? "gitHub: <a href=www.github.com/" + occupation.getGithub()+ ">"+occupation.getGithub()+"</a>" : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
 </section>
 </section>
 `, function (err) { })
