@@ -2,11 +2,25 @@ const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-console.log(Intern);
 const fs = require("fs");
+const htmlTemplateStart =
+    `<!DOCTYPE html>
+<html>
 
+<head>
+    <title>Team Profile Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>My Team</header>
+    <container>`;
+
+const htmlTemplateEnd =
+    `</container>
+    </body>
+    </html>`;
 function writer(occupation) {
-    console.log(occupation);
     fs.appendFile("./dist/index.html",
         `<section class="unit">
 <section class="basicInfo">
@@ -17,7 +31,7 @@ function writer(occupation) {
 <label class="iD"> ID:${occupation.id}</label>
 <label class="email"> Email:<a href="mailto:${occupation.email}">${occupation.email}</a></label>
 <label class="misc">
-${(occupation.getRole() == "engineer") ? "gitHub: <a href=www.github.com/" + occupation.getGithub()+ ">"+occupation.getGithub()+"</a>" : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
+${(occupation.getRole() == "engineer") ? "gitHub: <a href=www.github.com/" + occupation.getGithub() + ">" + occupation.getGithub() + "</a>" : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
 </section>
 </section>
 `, function (err) { })
@@ -40,9 +54,7 @@ function inquirerCore() {
                     break;
                 default:
                     fs.appendFile("./dist/index.html",
-                        `</container>
-                    </body>
-                    </html>`, function (err) { })
+                        htmlTemplateEnd, function (err) { })
             }
 
 
@@ -104,6 +116,7 @@ function init() {
         .then(
             answers => {
                 const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+                fs.writeFile('./dist/index.html',htmlTemplateStart,(err)=>{});
                 writer(manager);
                 inquirerCore();
             }
