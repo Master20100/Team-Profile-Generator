@@ -31,7 +31,7 @@ function writer(occupation) {
 <label class="iD"> ID:${occupation.id}</label>
 <label class="email"> Email:<a href="mailto:${occupation.email}">${occupation.email}</a></label>
 <label class="misc">
-${(occupation.getRole() == "engineer") ? "gitHub: <a href=www.github.com/" + occupation.getGithub() + ">" + occupation.getGithub() + "</a>" : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
+${(occupation.getRole() == "engineer") ? "gitHub: <a href=http://www.github.com/" + occupation.getGithub() + ">" + occupation.getGithub() + "</a>" : (occupation.getRole() == "intern") ? "school: " + occupation.getSchool() : "office number: " + occupation.getOfficeNumber()}</label>
 </section>
 </section>
 `, function (err) { })
@@ -116,7 +116,7 @@ function init() {
         .then(
             answers => {
                 const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-                fs.writeFile('./dist/index.html',htmlTemplateStart,(err)=>{});
+                fs.writeFile('./dist/index.html', htmlTemplateStart, (err) => { });
                 writer(manager);
                 inquirerCore();
             }
