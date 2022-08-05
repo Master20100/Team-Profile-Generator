@@ -4,6 +4,7 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const fs = require("fs");
+const manager = false;
 
 //html template with the closing tags of body and html
 const htmlTemplateStart =
@@ -20,7 +21,7 @@ const htmlTemplateStart =
     <container>`;
 
 
- //html closing tags   
+//html closing tags   
 const htmlTemplateEnd =
     `</container>
     </body>
@@ -50,31 +51,42 @@ ${(occupation.getRole() == "engineer") ? "gitHub: <a href=http://www.github.com/
 //inquirerCore function that runs after manager is selected and keeps running using
 //recusion until user exits
 function inquirerCore() {
-    inquirer.prompt([{
-        type: 'list',
-        name: 'addition',
-        message: 'Please add other team members, otherwise please exit',
-        choices: ['add engineer', 'add intern', 'exit']
-    }]).then(
-        answers => {
-            switch (answers.addition) {
-                case 'add engineer':
-                    inquirer.prompt(engineerQuestions).then(answers => { const engineer = new Engineer(answers.name, answers.id, answers.email, answers.gitHub); writer(engineer); inquirerCore() })
-                    break;
-                case 'add intern':
-                    inquirer.prompt(internQuestions).then(answers => { const intern = new Intern(answers.name, answers.id, answers.email, answers.school); writer(intern); inquirerCore() })
-                    break;
-                default:
-                    fs.appendFile("./dist/index.html",
-                        htmlTemplateEnd, function (err) { })
+    if (!manager) {
+        inquirer.prompt(managerQuestions)
+            .then(answers => {
+                const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+                fs.writeFile('./dist/index.html', htmlTemplateStart, (err) => { });
+                writer(manager);
+                manager = true;
+                inquirer();
+            })
+    }
+    else {
+        inquirer.prompt([{
+            type: 'list',
+            name: 'addition',
+            message: 'Please add other team members, otherwise please exit',
+            choices: ['add engineer', 'add intern', 'exit']
+        }]).then(
+            answers => {
+                switch (answers.addition) {
+                    case 'add engineer':
+                        inquirer.prompt(engineerQuestions).then(answers => { const engineer = new Engineer(answers.name, answers.id, answers.email, answers.gitHub); writer(engineer); inquirerCore() })
+                        break;
+                    case 'add intern':
+                        inquirer.prompt(internQuestions).then(answers => { const intern = new Intern(answers.name, answers.id, answers.email, answers.school); writer(intern); inquirerCore() })
+                        break;
+                    default:
+                        fs.appendFile("./dist/index.html",
+                            htmlTemplateEnd, function (err) { })
+                }
+
+
             }
+        )
 
-
-        }
-    )
-
+    }
 }
-
 
 //3 arrays of objects, each array represent questions of either manager,
 //intern or engineer.
@@ -125,17 +137,10 @@ const internQuestions = [{
 function init() {
     //will create a new manager then assign values to 
 
-    inquirer.prompt(managerQuestions)
-        .then(
-            answers => {
-                const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-                fs.writeFile('./dist/index.html', htmlTemplateStart, (err) => { });
-                writer(manager);
-                inquirerCore();
-            }
-        )
-   
+inquirerCore();
 }
+
+
 
 init();
 
