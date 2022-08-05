@@ -1,8 +1,11 @@
+//inquirer added(after installed), fs added and 3 classes imported.
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const fs = require("fs");
+
+//html template with the closing tags of body and html
 const htmlTemplateStart =
     `<!DOCTYPE html>
 <html>
@@ -16,10 +19,16 @@ const htmlTemplateStart =
     <header>My Team</header>
     <container>`;
 
+
+ //html closing tags   
 const htmlTemplateEnd =
     `</container>
     </body>
     </html>`;
+
+
+//writer function that appends the html code by adding units that represent manager,
+//engineer or intern
 function writer(occupation) {
     fs.appendFile("./dist/index.html",
         `<section class="unit">
@@ -37,6 +46,9 @@ ${(occupation.getRole() == "engineer") ? "gitHub: <a href=http://www.github.com/
 `, function (err) { })
 }
 
+
+//inquirerCore function that runs after manager is selected and keeps running using
+//recusion until user exits
 function inquirerCore() {
     inquirer.prompt([{
         type: 'list',
@@ -64,7 +76,8 @@ function inquirerCore() {
 }
 
 
-
+//3 arrays of objects, each array represent questions of either manager,
+//intern or engineer.
 const managerQuestions = [{
     name: "name",
     message: "please enter the team manager’s name",
@@ -108,7 +121,7 @@ const internQuestions = [{
 }
 ]
 
-
+//starter function to run the program
 function init() {
     //will create a new manager then assign values to 
 
@@ -121,22 +134,7 @@ function init() {
                 inquirerCore();
             }
         )
-    //     inquirer.prompt([{
-    //     type: 'list',
-    //     name: 'addition',
-    //     message: 'Please add other team members, otherwise please exit',
-    //     choices: ['add engineer', 'add intern','exit']
-    // }])
-
-
-
-
-
-
-
-
-
-
+   
 }
 
 init();
