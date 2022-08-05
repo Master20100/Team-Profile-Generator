@@ -4,7 +4,7 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const fs = require("fs");
-const manager = false;
+let managerStatus = false;
 
 //html template with the closing tags of body and html
 const htmlTemplateStart =
@@ -48,17 +48,18 @@ ${(occupation.getRole() == "engineer") ? "gitHub: <a href=http://www.github.com/
 }
 
 
-//inquirerCore function that runs after manager is selected and keeps running using
-//recusion until user exits
+//inquirerCore function that check if no manager will ask user to add one
+//if there is a manager will ask user to either add engineer or add intern or exit
+//if engineer or intern added, it will keep running usning recusion until user exits.
 function inquirerCore() {
-    if (!manager) {
+    if (!managerStatus) {
         inquirer.prompt(managerQuestions)
             .then(answers => {
                 const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
                 fs.writeFile('./dist/index.html', htmlTemplateStart, (err) => { });
                 writer(manager);
-                manager = true;
-                inquirer();
+                managerStatus = true;
+                inquirerCore();
             })
     }
     else {
@@ -137,7 +138,7 @@ const internQuestions = [{
 function init() {
     //will create a new manager then assign values to 
 
-inquirerCore();
+    inquirerCore();
 }
 
 

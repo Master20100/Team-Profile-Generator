@@ -10,13 +10,13 @@ Employee is the main class, the other 3 classes inherit from it.
 
 The program has 4 constants, each is an array of objects. Each of these are the questions the user gets depending on if he is choosing manager, intern or engineer.
 
-User first enters the manager details and the answers will be used to create a manager object, then the html starter code is added, then this manager object is inserted into a function that I created called writer. 
+InquirerCore function is run first.
+inquirerCore function is used to check if there is no manager, then it will ask for the manager details gets the user input and creates a new manager object from the class manager then html starter code is added(html sample code without the closingtags of bode, html or container(flexboxes))
 
-Writer function then add the details from the manager an HTML unit code(each unit represents the user choice of either engineer, intern or manager) then appends this unit to the starter code. 
-
-After that inquirerCore function is run. 
-inquirerCore function is used for asking the user to select one of 3 choices, either choose engineer or intern or exit.
-tInquirercore gets the user input and if its engineer or inten, it runs again(recursion) until the user exits and here the html template is added.
+ writer function adds the details from the manager object to an HTML unit code(each unit represents the user choice of either engineer, intern or manager) then appends this unit to the starter code. 
+ 
+ if there is a manager then InquirerCore function will ask the user to select one of 3 choices, either choose engineer or intern or exit.
+Inquirercore gets the user input and if its engineer or inten, it runs again(recursion) until the user exits and here the html template is added.
 If the user choose exit, inquirerCore function will add htmlTemplateEnd to the end of the html file and the file becomes completed.
 
 
