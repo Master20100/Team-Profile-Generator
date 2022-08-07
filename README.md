@@ -23,3 +23,4 @@ If the user choose exit, inquirerCore function will add htmlTemplateEnd to the e
 A test folder is created with 4 test files for the 4 classes and the functions inside were tested and all passed.
 
 video link- 
+https://www.youtube.com/watch?v=lbP6mmdAy8s
